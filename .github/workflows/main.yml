@@ -19,10 +19,16 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
 
+      - name: Install Gradle
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.0-bin.zip
+          unzip -q gradle-8.0-bin.zip
+          export PATH=$PATH:$(pwd)/gradle-8.0/bin
+
       - name: Build APK
         run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug
+          export PATH=$PATH:$(pwd)/gradle-8.0/bin
+          gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
